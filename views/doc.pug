@@ -1,0 +1,46 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        title List API Docs
+        style.
+            body {
+                background: #fafafa;
+            }
+
+            .header-container {
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                background: #89bf03;
+                color: #FFF;
+            }
+
+            .container-link {
+                display: flex;
+                -webkit-flex-flow: row wrap;
+                justify-content: space-between;
+                padding: 15px 30px 15px 30px;
+                border: 2px solid #e2e1e1;
+                border-radius: 5px;
+                margin-top: 15px;
+            }
+
+            .name-link {
+                font-size: 1.2em;
+            }
+    body
+        header
+            h2.header-container Перечень API документации TASS
+        div
+            .container-link
+                span.name-link Определение сущностей, тел запросов и ответов
+                a(href=definitions) #{definitions}
+            .container-link
+                span.name-link Общие запросы
+                a(href=common) #{common}
+            .container-link
+                span.name-link Запросов для раздела Клиенты
+                a(href=customer) #{customer}
