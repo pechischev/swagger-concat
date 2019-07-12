@@ -1,0 +1,8 @@
+version: '3.2'
+
+services:
+  app_backend:
+    build: .
+    container_name: ${CONTAINER_NAME}
+    ports:
+      - ${PORT:-1620}:3000
