@@ -22,6 +22,8 @@ paths:
       summary: Получение списка названий колонок
       security:
         - AuthToken: []
+      parameters:
+        - $ref: '#/components/parameters/UserTypeParams'
       responses:
         200:
           $ref: 'definitions.yaml#/components/responses/Presets'
@@ -46,9 +48,11 @@ paths:
         - AuthToken: []
       parameters:
         - $ref: '#/components/parameters/PresetIdParams'
+      requestBody:
+        $ref: '#/components/requestBodies/UserPreset'
       responses:
         200:
-          $ref: 'definitions.yaml#/components/responses/Presets'
+          $ref: '#/components/responses/UserPreset'
 
   /user/preset/:presetId:
     get:
@@ -61,7 +65,7 @@ paths:
         - $ref: '#/components/parameters/PresetIdParams'
       responses:
         200:
-          $ref: 'definitions.yaml#/components/responses/Presets'
+          $ref: '#/components/responses/UserPreset'
     put:
       tags:
         - Presets
@@ -71,10 +75,10 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PresetIdParams'
       requestBody:
-        $ref: 'definitions.yaml#/components/requestBodies/Presets'
+        $ref: '#/components/requestBodies/UserPreset'
       responses:
         200:
-          $ref: 'definitions.yaml#/components/responses/Presets'
+          $ref: '#/components/responses/UserPreset'
     delete:
       tags:
         - Presets
@@ -124,11 +128,37 @@ components:
     PresetIdParams:
       name: presetID
       in: path
+      required: true
       description: ID пресета
       schema:
         type: number
 
+  schemas:
+    Presets:
+      type: object
+      properties:
+        title:
+          type: string
+        presets:
+          type: array
+          items:
+            $ref: 'definitions.yaml#/components/schemas/Item'
+
+  requestBodies:
+    UserPreset:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Presets'
+
   responses:
+    UserPreset:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Presets'
+
     UserPresets:
       description: OK
       content:
