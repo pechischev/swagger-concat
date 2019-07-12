@@ -1,0 +1,52 @@
+openapi: "3.0.0"
+info:
+  title: Tass API
+  description: API description in Markdown.
+  version: 1.0.0
+
+tags:
+  - name: auth
+    description: Авторизация
+
+paths:
+#---------- Auth -----------------
+
+  /sign_in:
+    post:
+      tags:
+        - auth
+      summary: Вход
+      description: Авторизация пользователя
+      requestBody:
+        $ref: '#/components/requestBodies/AccessData'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: 'definitions.yaml#/components/schemas/AccessInfo'
+
+#---------- Common Info -----------------
+
+
+#-------------- Definitions ---------------
+
+components:
+  requestBodies:
+    AccessData:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              login:
+                type: string
+                description: уникальное имя или email
+              password:
+                type: string
+                format: password

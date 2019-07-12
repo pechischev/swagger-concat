@@ -1,0 +1,172 @@
+openapi: "3.0.0"
+info:
+  title: Components
+  description: API description in Markdown.
+  version: 1.0.0
+
+paths:
+
+components:
+  securitySchemes:
+    AuthToken:
+      type: apiKey
+      in: header
+      name: token
+
+  parameters:
+    filterParams:
+      name: filter
+      in: query
+      description: Поиск по колонкам, смотри схему Column
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/Column'
+    orderParam:
+      name: order
+      in: query
+      description: Тип сортировки
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: asc
+    orderByParam:
+      name: orderBy
+      in: query
+      description: Ключ сортировки
+      schema:
+        type: string
+        example: name
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        code:
+          type: string
+        message:
+          type: string
+    Column:
+      type: object
+      required:
+        - column
+        - value
+      properties:
+        column:
+          type: string
+          description: название колонки
+        value:
+          oneOf:
+            - type: string
+            - type: number
+            - type: boolean
+          description: значение колонки (в случае параметра использовать как поиск)
+    Item:
+      type: object
+      required:
+        - title
+        - value
+      properties:
+        title:
+          type: string
+          description: название
+        value:
+          type: string
+          description: значение
+    Roles:
+      type: array
+      description: список ролей
+      items:
+        type: string
+    BaseUser:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: number
+          description: Уникальный индентификатор
+        name:
+          type: string
+          description: Имя пользователя
+    AccessInfo:
+      allOf:
+        - $ref: '#/components/schemas/BaseUser'
+        - type: object
+          required:
+            - roles
+            - token
+          properties:
+            roles:
+              $ref: '#/components/schemas/Roles'
+            token:
+              type: string
+              description: токен для доступа в систему
+
+  requestBodies:
+    Presets:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Column'
+
+  responses:
+    NotFoundError:
+      description: Не найдено
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Не авторизован
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unexpected:
+      description: Серверная ошибка
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Check the request sent to the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Presets:
+      description: list column presets
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Column'
+    ListData:
+      description: list data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                description: Общее количество найденных результатов
+              rows:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Column'
+                description: Массив найденных результатов
+              total:
+                allOf:
+                  - $ref: '#/components/schemas/Column'
+                  - description: Оптициональные значения
+            required:
+              - count
+              - rows

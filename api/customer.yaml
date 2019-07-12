@@ -1,0 +1,139 @@
+openapi: "3.0.0"
+info:
+  title: Tass API
+  description: API description in Markdown.
+  version: 1.0.0
+
+tags:
+  - name: User
+    description: Пользователи
+  - name: Presets
+    description: Пресеты
+
+paths:
+
+  #-------------------------
+  # Presets
+  #-------------------------
+  /user/columns:
+    get:
+      tags:
+        - Presets
+      summary: Получение списка названий колонок
+      security:
+        - AuthToken: []
+      responses:
+        200:
+          $ref: 'definitions.yaml#/components/responses/Presets'
+
+  /user/presets:
+    get:
+      tags:
+        - Presets
+      summary: Получение cписка пресетов
+      security:
+        - AuthToken: []
+      responses:
+        200:
+          $ref: '#/components/responses/UserPresets'
+
+  /user/preset:
+    post:
+      tags:
+        - Presets
+      summary: Создание пресета
+      security:
+        - AuthToken: []
+      parameters:
+        - $ref: '#/components/parameters/PresetIdParams'
+      responses:
+        200:
+          $ref: 'definitions.yaml#/components/responses/Presets'
+
+  /user/preset/:presetId:
+    get:
+      tags:
+        - Presets
+      summary: Получение текущего пресета
+      security:
+        - AuthToken: []
+      parameters:
+        - $ref: '#/components/parameters/PresetIdParams'
+      responses:
+        200:
+          $ref: 'definitions.yaml#/components/responses/Presets'
+    put:
+      tags:
+        - Presets
+      summary: Обновление пресета
+      security:
+        - AuthToken: []
+      parameters:
+        - $ref: '#/components/parameters/PresetIdParams'
+      requestBody:
+        $ref: 'definitions.yaml#/components/requestBodies/Presets'
+      responses:
+        200:
+          $ref: 'definitions.yaml#/components/responses/Presets'
+    delete:
+      tags:
+        - Presets
+      summary: Удаление пресета
+      security:
+        - AuthToken: []
+      parameters:
+        - $ref: '#/components/parameters/PresetIdParams'
+      responses:
+        200:
+          description: OK
+
+  #-------------------------
+  # User
+  #-------------------------
+  /users/:type:
+    get:
+      tags:
+        - User
+      summary: Получение списка пользователей
+      security:
+        - AuthToken: []
+      description: Login for auth user
+      parameters:
+        - $ref: '#/components/parameters/UserTypeParams'
+        - $ref: 'definitions.yaml#/components/parameters/filterParams'
+        - $ref: 'definitions.yaml#/components/parameters/orderParam'
+        - $ref: 'definitions.yaml#/components/parameters/orderByParam'
+      responses:
+        200:
+          $ref: 'definitions.yaml#/components/responses/ListData'
+
+
+#-------------- Definitions ---------------
+
+components:
+
+  parameters:
+    UserTypeParams:
+      name: type
+      in: path
+      description: Тип пользователя
+      schema:
+        type: string
+        enum: [customer, user]
+        default: all
+    PresetIdParams:
+      name: presetID
+      in: path
+      description: ID пресета
+      schema:
+        type: number
+
+  responses:
+    UserPresets:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: 'definitions.yaml#/components/schemas/Item'
