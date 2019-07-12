@@ -28,18 +28,20 @@ paths:
         200:
           $ref: 'definitions.yaml#/components/responses/Presets'
 
-  /user/presets:
+  /user/:userId/presets:
     get:
       tags:
         - Presets
       summary: Получение cписка пресетов
       security:
         - AuthToken: []
+      parameters:
+        - $ref: '#/components/parameters/UserIdParams'
       responses:
         200:
           $ref: '#/components/responses/UserPresets'
 
-  /user/preset:
+  /user/:userId/preset:
     post:
       tags:
         - Presets
@@ -48,13 +50,14 @@ paths:
         - AuthToken: []
       parameters:
         - $ref: '#/components/parameters/PresetIdParams'
+        - $ref: '#/components/parameters/UserIdParams'
       requestBody:
         $ref: '#/components/requestBodies/UserPreset'
       responses:
         200:
           $ref: '#/components/responses/UserPreset'
 
-  /user/preset/:presetId:
+  /user/:userId/preset/:presetId:
     get:
       tags:
         - Presets
@@ -63,6 +66,7 @@ paths:
         - AuthToken: []
       parameters:
         - $ref: '#/components/parameters/PresetIdParams'
+        - $ref: '#/components/parameters/UserIdParams'
       responses:
         200:
           $ref: '#/components/responses/UserPreset'
@@ -74,6 +78,7 @@ paths:
         - AuthToken: []
       parameters:
         - $ref: '#/components/parameters/PresetIdParams'
+        - $ref: '#/components/parameters/UserIdParams'
       requestBody:
         $ref: '#/components/requestBodies/UserPreset'
       responses:
@@ -87,6 +92,7 @@ paths:
         - AuthToken: []
       parameters:
         - $ref: '#/components/parameters/PresetIdParams'
+        - $ref: '#/components/parameters/UserIdParams'
       responses:
         200:
           description: OK
@@ -101,7 +107,6 @@ paths:
       summary: Получение списка пользователей
       security:
         - AuthToken: []
-      description: Login for auth user
       parameters:
         - $ref: '#/components/parameters/UserTypeParams'
         - $ref: 'definitions.yaml#/components/parameters/filterParams'
@@ -120,16 +125,24 @@ components:
     UserTypeParams:
       name: type
       in: path
+      required: true
       description: Тип пользователя
       schema:
         type: string
         enum: [customer, user]
-        default: all
+        default: customer
     PresetIdParams:
       name: presetID
       in: path
       required: true
       description: ID пресета
+      schema:
+        type: number
+    UserIdParams:
+      name: userID
+      in: path
+      required: true
+      description: ID пользователя
       schema:
         type: number
 
