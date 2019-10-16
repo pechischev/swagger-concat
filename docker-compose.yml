@@ -5,4 +5,4 @@ services:
     build: .
     container_name: ${CONTAINER_NAME}
     ports:
-      - ${PORT:-1620}:3000
+      - ${PORT:-1620}:{CONFIG_PORT:-8600}

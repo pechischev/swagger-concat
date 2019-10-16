@@ -17,7 +17,6 @@ async function getSwaggerDocWithRefs(rootFilePath){
     return swaggerDoc.resolved;
 }
 
-
 module.exports = {
     common: getSwaggerDocWithRefs("./api/common.yaml"),
     customer: getSwaggerDocWithRefs("./api/customer.yaml"),

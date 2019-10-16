@@ -1,11 +1,11 @@
 FROM keymetrics/pm2:10-alpine
 
 RUN npm install pm2 -g
-RUN mkdir /var/tass-docs
+RUN mkdir /var/swagger-api
 
-COPY . /var/tass-docs
+COPY . /var/swagger-api
 
-WORKDIR /var/tass-docs
+WORKDIR /var/swagger-api
 
 RUN npm install --update-binary --no-shrinkwrap
 RUN npm run start

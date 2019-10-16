@@ -1,13 +1,13 @@
 {
-  "name": "tass",
-  "version": "1.0.0",
-  "description": "Tass server",
+  "name": "swagger-api",
+  "version": "0.1.0",
+  "description": "Api server",
   "main": "index.js",
   "scripts": {
     "start": "node server.js"
   },
-  "author": "OOO \"Omega-Soft\"",
-  "license": "ISC",
+  "author": "Pechischev Vladimir",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
     "json-refs": "^3.0.13",
